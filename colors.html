@@ -1,49 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+<script type="text/javascript">
+  colorScheme = { 
+    classic: {
+      name:         "Watermelon", 
+      like:         "green", 
+      dislike:      "red", 
+      like_dark:    "lime", 
+      dislike_dark: "red", 
+    }, 
+    hibiscus: {
+      name:         "Hibiscus", 
+      like:         "green", 
+      dislike:      "magenta", 
+      like_dark:    "lime", 
+      dislike_dark: "magenta", 
+    }, 
+    accessible: {
+      name:         "Capetian", 
+      like:         "dodgerblue", 
+      dislike:      "goldenrod", 
+      like_dark:    "dodgerblue", 
+      dislike_dark: "gold", 
+    }, 
+    neon: {
+      name:         "Neon", 
+      like:         "turquoise", 
+      dislike:      "magenta", 
+      like_dark:    "aqua", 
+      dislike_dark: "magenta", 
+    }, 
+  }; 
+</script>
+
+<style>
+  #prot {
+    filter: url('data:image/svg+xml,\
+      <svg xmlns="http://www.w3.org/2000/svg">\
+        <filter id="deuteranopia">\
+          <feColorMatrix values="0.152286  1.052583 -0.204868  0.000  0.000\
+                                 0.114503  0.786281  0.099216  0.000  0.000\
+                                -0.003882 -0.048116  1.051998  0.000  0.000\
+                                 0.000     0.000     0.000     1.000  0.000" />\
+        </filter>\
+      </svg>#deuteranopia');
+  }
+  
+  #deut {
+    filter: url('data:image/svg+xml,\
+      <svg xmlns="http://www.w3.org/2000/svg">\
+        <filter id="deuteranopia">\
+          <feColorMatrix values="0.367  0.861 -0.228  0.000  0.000\
+                                 0.280  0.673  0.047  0.000  0.000\
+                                -0.012  0.043  0.969  0.000  0.000\
+                                 0.000  0.000  0.000  1.000  0.000" />\
+        </filter>\
+      </svg>#deuteranopia');
+  }
+  
+  #trit {
+    filter: url('data:image/svg+xml,\
+      <svg xmlns="http://www.w3.org/2000/svg">\
+        <filter id="deuteranopia">\
+          <feColorMatrix values="1.255528 -0.076749 -0.178779  0.000  0.000\
+                                 -0.078411 0.930809  0.147602  0.000  0.000\
+                                 0.004733  0.691367  0.303900  0.000  0.000\
+                                 0.000     0.000     0.000     1.000  0.000" />\
+        </filter>\
+      </svg>#deuteranopia');
+  }
+  
+  .custom-color-select {
+    background: unset;
+    border: 0px;
+    padding: 0px;
+    height: 20px;
+    width: 16px;
+  }
+</style>
+
+<script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function(event) {
+    let x, y;
+    
+    [ "full", "prot", "deut", "trit" ].forEach(function(containerName) {
+      droot = document.querySelector('div#'+containerName);
+      
+      x = document.createElement("div");
+      x.style.background = "white";
+      Object.keys(colorScheme).forEach(function(colorSchemeName) {
+        x.appendChild(document.createTextNode(colorScheme[colorSchemeName].name));
+        x.appendChild(document.createTextNode('\u00A0'));
+        [ "like", "dislike" ].forEach(function(thumb) {
+          y = document.createElement("span");
+          y.style.width = "10px";
+          y.style.height = "10px";
+          y.style.display = "inline-block";
+          y.style.backgroundColor = colorScheme[colorSchemeName][thumb];
+          x.appendChild(y);
+          x.appendChild(document.createTextNode('\u00A0'));
+        });
+        x.appendChild(document.createElement("br"));
+      });
+      
+      y = document.createElement('label');
+      y.setAttribute('for',"color_picker_like");
+      y.innerHTML = 'Custom';
+      x.appendChild(y);
+      y = document.createElement('input');
+      y.classList.add('custom-color-select');
+      y.setAttribute('type',"color");
+      y.setAttribute('id',"color_picker_like");
+      y.setAttribute('value',"#00ff00");
+      x.appendChild(y);
+      y = document.createElement('input');
+      y.classList.add('custom-color-select');
+      y.setAttribute('type',"color");
+      y.setAttribute('id',"color_picker_dislike");
+      y.setAttribute('value',"#ff0000");
+      x.appendChild(y);
+      
+      x.appendChild(document.createElement("br"));
+      droot.appendChild(x);
+      
+      x = document.createElement("div");
+      x.style.background = "rgb(24,24,24)";
+      x.style.color = "white";
+      Object.keys(colorScheme).forEach(function(colorSchemeName) {
+        x.appendChild(document.createTextNode(colorScheme[colorSchemeName].name));
+        x.appendChild(document.createTextNode('\u00A0'));
+        [ "like_dark", "dislike_dark" ].forEach(function(thumb) {
+          y = document.createElement("span");
+          y.style.width = "10px";
+          y.style.height = "10px";
+          y.style.display = "inline-block";
+          y.style.backgroundColor = colorScheme[colorSchemeName][thumb];
+          x.appendChild(y);
+          x.appendChild(document.createTextNode('\u00A0'));
+        });
+        x.appendChild(document.createElement("br"));
+      });
+      droot.appendChild(x);
+      
+      y = document.createElement('label');
+      y.setAttribute('for',"color_picker_like_dark");
+      y.innerHTML = 'Custom';
+      x.appendChild(y);
+      y = document.createElement('input');
+      y.classList.add('custom-color-select');
+      y.setAttribute('type',"color");
+      y.setAttribute('id',"color_picker_like_dark");
+      y.setAttribute('value',"#00ff00");
+      x.appendChild(y);
+      y = document.createElement('input');
+      y.classList.add('custom-color-select');
+      y.setAttribute('type',"color");
+      y.setAttribute('id',"color_picker_dislike_dark");
+      y.setAttribute('value',"#ff0000");
+      x.appendChild(y);
+      
+      x.appendChild(document.createElement("br"));
+      droot.appendChild(x);
+      
+      droot.appendChild(document.createElement("br"));
+    });
+    
+});
+
+</script>
+</head>
 <body>
-<div style="background: white">
-<div>
-  Classic &nbsp;
-  <span style='width:10px; height:10px; background-color:lime;display:inline-block;'></span>&nbsp;
-  <span style='width:10px; height:10px; background-color:red;display:inline-block;'></span>&nbsp;
-</div>
-<div>
-  Prot/Deuteranopia &nbsp;
-  <span style='width:10px; height:10px; background-color:dodgerblue;display:inline-block;'></span>&nbsp;
-  <span style='width:10px; height:10px; background-color:gold;display:inline-block;'></span>&nbsp;
-</div>
-<div>
-  Hibiscus &nbsp;
-  <span style='width:10px; height:10px; background-color:lime;display:inline-block;'></span>&nbsp;
-  <span style='width:10px; height:10px; background-color:magenta;display:inline-block;'></span>&nbsp;
-</div>
-<div>
-  Neon &nbsp;
-  <span style='width:10px; height:10px; background-color:aqua;display:inline-block;'></span>&nbsp;
-  <span style='width:10px; height:10px; background-color:magenta;display:inline-block;'></span>&nbsp;
-</div>
-</div>
-<div style="background: rgb(3,3,3); color: white">
-<div>
-  Classic &nbsp;
-  <span style='width:10px; height:10px; background-color:lime;display:inline-block;'></span>&nbsp;
-  <span style='width:10px; height:10px; background-color:red;display:inline-block;'></span>&nbsp;
-</div>
-<div>
-  Prot/Deuteranopia &nbsp;
-  <span style='width:10px; height:10px; background-color:dodgerblue;display:inline-block;'></span>&nbsp;
-  <span style='width:10px; height:10px; background-color:gold;display:inline-block;'></span>&nbsp;
-</div>
-<div>
-  Hibiscus &nbsp;
-  <span style='width:10px; height:10px; background-color:lime;display:inline-block;'></span>&nbsp;
-  <span style='width:10px; height:10px; background-color:magenta;display:inline-block;'></span>&nbsp;
-</div>
-<div>
-  Neon &nbsp;
-  <span style='width:10px; height:10px; background-color:aqua;display:inline-block;'></span>&nbsp;
-  <span style='width:10px; height:10px; background-color:magenta;display:inline-block;'></span>&nbsp;
-</div>
-</div>
+<div id="full"></div>
+<div id="prot"></div>
+<div id="deut"></div>
+<div id="trit"></div>
+<div id="pick"></div>
 </body>
 </html>
